@@ -7,19 +7,38 @@ on:
 
 jobs:
   deploy:
+    name: Deploy to o2switch
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
 
-      - name: Get runner's public IP
+      - name: Get runner public IP
         id: ip
-        uses: haythem/public-ip@v1.3
-
-      - name: Whitelist runner IP on o2switch (legacy auth)
         run: |
-          ENDPOINT='frontend/o2switch/o2switch-ssh-whitelist/index.live.php'
-          curl -sX POST -d 'whitelist[address]=${{ steps.ip.outputs.ipv4 }}' -d 'whitelist[port]=22' \
-            "https://${{ secrets.REMOTE_USER }}:${{ secrets.URL_ENCODED_PASSWORD }}@${{ secrets.REMOTE_HOST }}:2083/$ENDPOINT?r=add"
+          IP=""
+          for url in "https://api.ipify.org" "https://ifconfig.me/ip" "https://checkip.amazonaws.com"; do
+            for attempt in 1 2 3; do
+              IP=$(curl -s -m 10 "$url" || true)
+              IP=$(echo "$IP" | tr -d '[:space:]')
+              if [[ "$IP" =~ ^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+                break 2
+              fi
+              echo "Tentative $attempt sur $url a échoué, nouvel essai..."
+              sleep 3
+            done
+          done
+          if [[ -z "$IP" ]]; then
+            echo "Impossible de récupérer l'IP publique du runner après plusieurs tentatives" >&2
+            exit 1
+          fi
+          echo "ipv4=$IP" >> "$GITHUB_OUTPUT"
+          echo "IP publique du runner : $IP"
+
+      - name: Whitelist GitHub Actions IP on o2switch
+        run: |
+          curl -sm 45 -H "Authorization: cpanel ${{ secrets.CPANEL_USERNAME }}:${{ secrets.CPANEL_API_TOKEN }}" \
+          "https://${{ secrets.CPANEL_SERVER }}:2083/execute/SshWhitelist/add?address=${{ steps.ip.outputs.ipv4 }}&port=22"
 
       - name: Setup SSH
         run: |
@@ -36,9 +55,8 @@ jobs:
             -e "ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no -p ${{ secrets.SSH_PORT }}" \
             ./ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:${{ secrets.REMOTE_PATH }}
 
-      - name: Remove whitelisted IP (cleanup)
+      - name: Remove GitHub Actions IP from whitelist
         if: always()
         run: |
-          ENDPOINT='frontend/o2switch/o2switch-ssh-whitelist/index.live.php'
-          curl -sX GET "https://${{ secrets.REMOTE_USER }}:${{ secrets.URL_ENCODED_PASSWORD }}@${{ secrets.REMOTE_HOST }}:2083/$ENDPOINT?r=remove&address=${{ steps.ip.outputs.ipv4 }}&direction=in&port=22"
-          curl -sX GET "https://${{ secrets.REMOTE_USER }}:${{ secrets.URL_ENCODED_PASSWORD }}@${{ secrets.REMOTE_HOST }}:2083/$ENDPOINT?r=remove&address=${{ steps.ip.outputs.ipv4 }}&direction=out&port=22"
+          curl -sm 45 -H "Authorization: cpanel ${{ secrets.CPANEL_USERNAME }}:${{ secrets.CPANEL_API_TOKEN }}" \
+          "https://${{ secrets.CPANEL_SERVER }}:2083/execute/SshWhitelist/remove_all"
