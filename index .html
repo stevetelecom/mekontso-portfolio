@@ -1,0 +1,1055 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Mekontso Olivier Steve — Portfolio</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.2/babel.min.js"></script>
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --sky: #e8f4fd;
+      --sky2: #d0eaf9;
+      --blue: #2a7fc1;
+      --blue-dark: #1a5f94;
+      --blue-light: #5ba3d9;
+      --accent: #f0a500;
+      --white: #ffffff;
+      --off-white: #f7fafd;
+      --text: #1a2a3a;
+      --text-light: #5a7a9a;
+      --border: #d0e4f4;
+      --shadow: 0 4px 32px rgba(42,127,193,0.10);
+      --shadow-lg: 0 12px 48px rgba(42,127,193,0.18);
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--off-white);
+      color: var(--text);
+      overflow-x: hidden;
+    }
+
+    /* ── FA ICON HELPERS ── */
+    .fa-icon {
+      display: inline-flex; align-items: center; justify-content: center;
+    }
+
+    /* ── NAVBAR ── */
+    .navbar {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: rgba(255,255,255,0.92);
+      backdrop-filter: blur(16px);
+      border-bottom: 1.5px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 5vw;
+      height: 68px;
+      box-shadow: 0 2px 20px rgba(42,127,193,0.07);
+    }
+    .navbar-brand {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--blue-dark);
+      letter-spacing: 0.01em;
+    }
+    .navbar-brand span { color: var(--accent); }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a {
+      text-decoration: none;
+      font-size: 0.92rem;
+      font-weight: 500;
+      color: var(--text-light);
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+      position: relative;
+      padding-bottom: 3px;
+    }
+    .nav-links a::after {
+      content: '';
+      position: absolute; bottom: 0; left: 0;
+      width: 0; height: 2px;
+      background: var(--accent);
+      transition: width 0.25s;
+    }
+    .nav-links a:hover { color: var(--blue); }
+    .nav-links a:hover::after { width: 100%; }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      background: linear-gradient(135deg, #e8f4fd 0%, #f7fafd 50%, #d8ecf8 100%);
+      display: flex; align-items: center;
+      padding: 100px 5vw 60px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute; top: -80px; right: -80px;
+      width: 500px; height: 500px;
+      background: radial-gradient(circle, rgba(42,127,193,0.12) 0%, transparent 70%);
+      border-radius: 50%;
+    }
+    .hero::after {
+      content: '';
+      position: absolute; bottom: -60px; left: -60px;
+      width: 350px; height: 350px;
+      background: radial-gradient(circle, rgba(240,165,0,0.08) 0%, transparent 70%);
+      border-radius: 50%;
+    }
+    .hero-inner {
+      max-width: 1200px; margin: 0 auto; width: 100%;
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 4rem; align-items: center;
+      position: relative; z-index: 1;
+    }
+    .hero-text { animation: fadeInLeft 0.9s ease both; }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--white);
+      border: 1.5px solid var(--border);
+      border-radius: 50px;
+      padding: 6px 16px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--blue);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 2px 12px rgba(42,127,193,0.08);
+    }
+    .hero-badge .pulse-dot {
+      width: 8px; height: 8px;
+      background: #22c55e;
+      border-radius: 50%;
+      animation: pulse-green 2s infinite;
+      display: inline-block;
+    }
+    @keyframes pulse-green {
+      0%,100% { box-shadow: 0 0 0 0 rgba(34,197,94,0.4); }
+      50% { box-shadow: 0 0 0 6px rgba(34,197,94,0); }
+    }
+    .hero-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.4rem, 4vw, 3.8rem);
+      font-weight: 900;
+      line-height: 1.1;
+      color: var(--text);
+      margin-bottom: 0.5rem;
+    }
+    .hero-title .accent { color: var(--blue); }
+    .hero-subtitle {
+      font-size: 1.05rem;
+      color: var(--blue-dark);
+      font-weight: 600;
+      margin-bottom: 1.2rem;
+      letter-spacing: 0.02em;
+    }
+    .hero-desc {
+      font-size: 1rem;
+      color: var(--text-light);
+      line-height: 1.75;
+      max-width: 520px;
+      margin-bottom: 2.5rem;
+    }
+    .hero-btns { display: flex; gap: 1rem; flex-wrap: wrap; }
+    .btn-primary {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--blue);
+      color: white;
+      padding: 13px 28px;
+      border-radius: 50px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.25s;
+      box-shadow: 0 4px 20px rgba(42,127,193,0.3);
+    }
+    .btn-primary:hover {
+      background: var(--blue-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 28px rgba(42,127,193,0.4);
+    }
+    .btn-outline {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: transparent;
+      color: var(--blue);
+      border: 2px solid var(--blue);
+      padding: 11px 28px;
+      border-radius: 50px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.25s;
+    }
+    .btn-outline:hover { background: var(--sky); transform: translateY(-2px); }
+
+    /* ── PHOTO ── */
+    .hero-photo { animation: fadeInRight 0.9s ease both; display: flex; justify-content: center; }
+    .photo-wrapper {
+      position: relative;
+      width: 340px; height: 340px;
+    }
+    .photo-ring {
+      position: absolute; inset: -12px;
+      border-radius: 50%;
+      background: conic-gradient(var(--blue) 0deg, var(--accent) 120deg, var(--blue-light) 240deg, var(--blue) 360deg);
+      animation: spin 10s linear infinite;
+    }
+    .photo-ring-inner {
+      position: absolute; inset: 4px;
+      background: var(--off-white);
+      border-radius: 50%;
+    }
+    .photo-circle {
+      position: absolute; inset: 0;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 5px solid white;
+      box-shadow: var(--shadow-lg);
+      background: linear-gradient(135deg, var(--sky) 0%, var(--sky2) 100%);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .photo-circle img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      border-radius: 50%;
+    }
+    .photo-deco {
+      position: absolute;
+      background: white;
+      border-radius: 16px;
+      padding: 10px 16px;
+      box-shadow: var(--shadow);
+      font-size: 0.82rem;
+      font-weight: 600;
+      display: flex; align-items: center; gap: 8px;
+      white-space: nowrap;
+    }
+    .deco-1 { bottom: -10px; left: -30px; color: var(--blue-dark); border: 1.5px solid var(--border); }
+    .deco-2 { top: 10px; right: -30px; color: var(--text); border: 1.5px solid var(--border); }
+    .deco-1 i, .deco-2 i { color: var(--blue); }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ── SECTIONS ── */
+    section { padding: 100px 5vw; }
+    .section-inner { max-width: 1200px; margin: 0 auto; }
+    .section-label {
+      font-size: 0.78rem; font-weight: 700;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.6rem;
+    }
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.8rem, 3vw, 2.8rem);
+      font-weight: 900;
+      color: var(--text);
+      margin-bottom: 1rem;
+      line-height: 1.15;
+    }
+    .section-title span { color: var(--blue); }
+    .section-divider {
+      width: 56px; height: 4px;
+      background: linear-gradient(90deg, var(--blue), var(--accent));
+      border-radius: 2px;
+      margin-bottom: 3rem;
+    }
+
+    /* ── A PROPOS ── */
+    #apropos { background: var(--white); }
+    .apropos-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 4rem; align-items: start;
+    }
+    .apropos-text p {
+      font-size: 1rem; color: var(--text-light);
+      line-height: 1.85; margin-bottom: 1.2rem;
+    }
+    .apropos-text p strong { color: var(--blue-dark); }
+    .info-cards { display: flex; flex-direction: column; gap: 1rem; }
+    .info-card {
+      background: var(--off-white);
+      border: 1.5px solid var(--border);
+      border-radius: 16px;
+      padding: 18px 22px;
+      display: flex; align-items: center; gap: 16px;
+      transition: box-shadow 0.2s, transform 0.2s;
+    }
+    .info-card:hover { box-shadow: var(--shadow); transform: translateX(4px); }
+    .info-card-icon {
+      width: 44px; height: 44px;
+      background: var(--sky);
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--blue);
+      font-size: 1.1rem; flex-shrink: 0;
+    }
+    .info-card-text { flex: 1; }
+    .info-card-label { font-size: 0.75rem; color: var(--text-light); text-transform: uppercase; letter-spacing: 0.06em; font-weight: 600; }
+    .info-card-value { font-size: 0.95rem; font-weight: 600; color: var(--text); }
+
+    /* ── CERTIF BADGES (in À propos) ── */
+    .certif-badges { display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 1.5rem; }
+    .certif-badge {
+      display: flex; align-items: center; gap: 10px;
+      background: linear-gradient(135deg, var(--blue) 0%, var(--blue-light) 100%);
+      color: white;
+      border-radius: 14px;
+      padding: 12px 20px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      box-shadow: 0 4px 16px rgba(42,127,193,0.25);
+    }
+    .certif-badge.gold {
+      background: linear-gradient(135deg, #d97706 0%, #f0a500 100%);
+      box-shadow: 0 4px 16px rgba(240,165,0,0.3);
+    }
+
+    /* ── COMPÉTENCES ── */
+    #competences { background: linear-gradient(160deg, var(--sky) 0%, var(--off-white) 100%); }
+    .skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; }
+    .skill-card {
+      background: var(--white);
+      border: 1.5px solid var(--border);
+      border-radius: 20px;
+      padding: 28px;
+      transition: all 0.25s;
+      position: relative;
+      overflow: hidden;
+    }
+    .skill-card::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--blue), var(--accent));
+    }
+    .skill-card:hover { box-shadow: var(--shadow-lg); transform: translateY(-4px); }
+    .skill-card-header { display: flex; align-items: center; gap: 14px; margin-bottom: 18px; }
+    .skill-card-icon {
+      width: 48px; height: 48px;
+      background: var(--sky);
+      border-radius: 14px;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--blue);
+      font-size: 1.3rem;
+    }
+    .skill-card-title { font-size: 1rem; font-weight: 700; color: var(--text); }
+    .skill-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+    .skill-tag {
+      background: var(--sky);
+      color: var(--blue-dark);
+      border-radius: 8px;
+      padding: 5px 12px;
+      font-size: 0.82rem;
+      font-weight: 500;
+      border: 1px solid var(--border);
+    }
+
+    /* ── FORMATION ── */
+    #formation { background: var(--white); }
+    .timeline { position: relative; padding-left: 2.5rem; }
+    .timeline::before {
+      content: '';
+      position: absolute; left: 10px; top: 8px; bottom: 8px;
+      width: 2px;
+      background: linear-gradient(to bottom, var(--blue), var(--accent));
+      border-radius: 2px;
+    }
+    .timeline-item { position: relative; margin-bottom: 3rem; }
+    .timeline-dot {
+      position: absolute; left: -2.5rem; top: 6px;
+      width: 20px; height: 20px;
+      background: var(--blue);
+      border: 3px solid white;
+      border-radius: 50%;
+      box-shadow: 0 0 0 3px var(--blue-light);
+    }
+    .timeline-card {
+      background: var(--off-white);
+      border: 1.5px solid var(--border);
+      border-radius: 20px;
+      padding: 28px;
+      transition: all 0.25s;
+    }
+    .timeline-card:hover { box-shadow: var(--shadow); transform: translateX(6px); }
+    .timeline-date {
+      display: inline-block;
+      background: var(--blue);
+      color: white;
+      font-size: 0.78rem;
+      font-weight: 700;
+      padding: 4px 14px;
+      border-radius: 50px;
+      margin-bottom: 12px;
+      letter-spacing: 0.04em;
+    }
+    .timeline-card h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 4px;
+    }
+    .timeline-school {
+      font-size: 0.88rem;
+      color: var(--blue);
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+    .timeline-card p { font-size: 0.92rem; color: var(--text-light); line-height: 1.7; }
+
+    /* ── CERTIFICATIONS SECTION ── */
+    .certifications-block { margin-top: 4rem; }
+    .certif-section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 0.4rem;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .certif-section-title i { color: var(--accent); }
+    .certif-section-sub {
+      font-size: 0.88rem; color: var(--text-light);
+      margin-bottom: 1.8rem;
+    }
+    .certif-cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+      gap: 1.5rem;
+    }
+    .certif-card {
+      background: var(--white);
+      border: 1.5px solid var(--border);
+      border-radius: 20px;
+      padding: 28px;
+      display: flex; align-items: center; gap: 20px;
+      transition: all 0.25s;
+      position: relative;
+      overflow: hidden;
+    }
+    .certif-card::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0;
+      height: 4px;
+    }
+    .certif-card.gold::before {
+      background: linear-gradient(90deg, #d97706, #f0a500);
+    }
+    .certif-card.blue::before {
+      background: linear-gradient(90deg, var(--blue), var(--blue-light));
+    }
+    .certif-card:hover { box-shadow: var(--shadow-lg); transform: translateY(-4px); }
+    .certif-card-icon {
+      width: 60px; height: 60px;
+      border-radius: 16px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.6rem;
+      flex-shrink: 0;
+    }
+    .certif-card.gold .certif-card-icon {
+      background: linear-gradient(135deg, #fef3c7, #fde68a);
+      color: #d97706;
+    }
+    .certif-card.blue .certif-card-icon {
+      background: linear-gradient(135deg, var(--sky), var(--sky2));
+      color: var(--blue);
+    }
+    .certif-card-info { flex: 1; }
+    .certif-card-info h4 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 4px;
+    }
+    .certif-card-info p {
+      font-size: 0.83rem;
+      color: var(--text-light);
+      line-height: 1.6;
+    }
+    .certif-card-info .certif-score {
+      display: inline-flex; align-items: center; gap: 5px;
+      background: var(--sky);
+      color: var(--blue-dark);
+      font-size: 0.8rem;
+      font-weight: 700;
+      padding: 3px 10px;
+      border-radius: 50px;
+      margin-top: 6px;
+      border: 1px solid var(--border);
+    }
+    .certif-view-btn {
+      display: inline-flex; align-items: center; gap: 7px;
+      background: var(--blue);
+      color: white;
+      padding: 10px 18px;
+      border-radius: 50px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      text-decoration: none;
+      transition: all 0.25s;
+      white-space: nowrap;
+      box-shadow: 0 3px 12px rgba(42,127,193,0.25);
+      flex-shrink: 0;
+    }
+    .certif-card.gold .certif-view-btn {
+      background: linear-gradient(135deg, #d97706, #f0a500);
+      box-shadow: 0 3px 12px rgba(240,165,0,0.3);
+    }
+    .certif-view-btn:hover { transform: translateY(-2px); opacity: 0.9; }
+
+    /* ── PROJETS ── */
+    #projets { background: var(--off-white); }
+    .projets-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.5rem; }
+    .projet-card {
+      background: var(--white);
+      border: 1.5px solid var(--border);
+      border-radius: 20px;
+      padding: 28px;
+      transition: all 0.25s;
+      display: flex; flex-direction: column;
+    }
+    .projet-card:hover { box-shadow: var(--shadow-lg); transform: translateY(-4px); }
+    .projet-header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 14px; }
+    .projet-icon {
+      width: 48px; height: 48px;
+      background: var(--sky);
+      border-radius: 14px;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--blue);
+      font-size: 1.3rem;
+    }
+    .projet-type {
+      font-size: 0.75rem; font-weight: 700;
+      color: var(--blue); text-transform: uppercase;
+      letter-spacing: 0.08em;
+      background: var(--sky);
+      padding: 4px 12px; border-radius: 50px;
+    }
+    .projet-card h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem; font-weight: 700;
+      color: var(--text); margin-bottom: 8px;
+    }
+    .projet-card p { font-size: 0.9rem; color: var(--text-light); line-height: 1.65; flex: 1; margin-bottom: 16px; }
+    .projet-stack { display: flex; flex-wrap: wrap; gap: 6px; }
+    .stack-tag {
+      background: var(--sky2);
+      color: var(--blue-dark);
+      padding: 3px 10px; border-radius: 6px;
+      font-size: 0.78rem; font-weight: 600;
+    }
+
+    /* ── CV DOWNLOAD ── */
+    .cv-section {
+      background: linear-gradient(135deg, var(--blue) 0%, var(--blue-dark) 100%);
+      border-radius: 28px;
+      padding: 60px 48px;
+      text-align: center;
+      color: white;
+      position: relative;
+      overflow: hidden;
+      margin-top: 3rem;
+    }
+    .cv-section::before {
+      content: '';
+      position: absolute; top: -60px; right: -60px;
+      width: 280px; height: 280px;
+      background: rgba(255,255,255,0.06);
+      border-radius: 50%;
+    }
+    .cv-section h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem; font-weight: 900;
+      margin-bottom: 0.8rem;
+      display: flex; align-items: center; justify-content: center; gap: 12px;
+    }
+    .cv-section p { font-size: 1rem; opacity: 0.85; margin-bottom: 2rem; }
+    .btn-cv {
+      display: inline-flex; align-items: center; gap: 10px;
+      background: var(--accent);
+      color: white;
+      padding: 15px 36px;
+      border-radius: 50px;
+      font-size: 1rem; font-weight: 700;
+      text-decoration: none;
+      transition: all 0.25s;
+      box-shadow: 0 6px 24px rgba(240,165,0,0.4);
+    }
+    .btn-cv:hover { transform: translateY(-3px); box-shadow: 0 10px 32px rgba(240,165,0,0.5); background: #e09500; }
+
+    /* ── CONTACT ── */
+    #contact { background: var(--white); }
+    .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start; }
+    .contact-info { display: flex; flex-direction: column; gap: 1.2rem; }
+    .contact-item {
+      display: flex; align-items: center; gap: 16px;
+      background: var(--off-white);
+      border: 1.5px solid var(--border);
+      border-radius: 16px; padding: 18px 20px;
+      text-decoration: none; color: var(--text);
+      transition: all 0.2s;
+    }
+    .contact-item:hover { box-shadow: var(--shadow); transform: translateX(4px); border-color: var(--blue); }
+    .contact-icon {
+      width: 44px; height: 44px;
+      background: var(--sky);
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--blue);
+      font-size: 1.05rem;
+      flex-shrink: 0;
+    }
+    .contact-label { font-size: 0.75rem; color: var(--text-light); text-transform: uppercase; letter-spacing: 0.06em; font-weight: 600; }
+    .contact-value { font-size: 0.95rem; font-weight: 600; color: var(--text); }
+    .contact-form { display: flex; flex-direction: column; gap: 1rem; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .form-group { display: flex; flex-direction: column; gap: 6px; }
+    .form-group label { font-size: 0.82rem; font-weight: 600; color: var(--text); letter-spacing: 0.04em; }
+    .form-group input,
+    .form-group textarea {
+      border: 1.5px solid var(--border);
+      border-radius: 12px;
+      padding: 12px 16px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.95rem;
+      color: var(--text);
+      background: var(--off-white);
+      transition: border-color 0.2s, box-shadow 0.2s;
+      outline: none;
+      resize: vertical;
+    }
+    .form-group input:focus,
+    .form-group textarea:focus {
+      border-color: var(--blue);
+      box-shadow: 0 0 0 3px rgba(42,127,193,0.1);
+      background: white;
+    }
+    .btn-send {
+      background: var(--blue);
+      color: white;
+      border: none;
+      padding: 14px 32px;
+      border-radius: 50px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 1rem; font-weight: 700;
+      cursor: pointer;
+      transition: all 0.25s;
+      box-shadow: 0 4px 20px rgba(42,127,193,0.3);
+      display: flex; align-items: center; gap: 8px;
+    }
+    .btn-send:hover { background: var(--blue-dark); transform: translateY(-2px); }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--text);
+      color: rgba(255,255,255,0.7);
+      text-align: center;
+      padding: 32px;
+      font-size: 0.88rem;
+    }
+    footer span { color: var(--accent); font-weight: 700; }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeInLeft {
+      from { opacity: 0; transform: translateX(-40px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+    @keyframes fadeInRight {
+      from { opacity: 0; transform: translateX(40px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+    .fade-in {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: all 0.65s ease;
+    }
+    .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      .hero-inner, .apropos-grid, .contact-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+      .hero-photo { order: -1; }
+      .photo-wrapper { width: 250px; height: 250px; }
+      .nav-links { gap: 1rem; }
+      .form-row { grid-template-columns: 1fr; }
+      .certif-cards-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 600px) {
+      .nav-links { display: none; }
+      section { padding: 70px 5vw; }
+      .cv-section { padding: 40px 24px; }
+      .certif-card { flex-direction: column; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const { useState, useEffect } = React;
+
+    /* ── DATA ── */
+    const skills = [
+      { icon: "fa-solid fa-laptop-code",     title: "Développement Web",        tags: ["PHP", "Laravel", "Python", "Django", "JavaScript", "React", "Node.js", "HTML/CSS"] },
+      { icon: "fa-solid fa-shield-halved",   title: "Cybersécurité",            tags: ["Kali Linux", "Pentesting", "IDS/IPS", "Investigation Numérique", "GNS3", "EveNg"] },
+      { icon: "fa-solid fa-network-wired",   title: "Réseaux & Systèmes",       tags: ["Cisco", "Switch/Routeur", "VLAN", "Pare-feu", "VPN", "Câblage RJ45"] },
+      { icon: "fa-solid fa-microchip",       title: "Systèmes & Virtualisation", tags: ["Linux", "Proxmox", "VirtualBox", "VMware", "IoT", "IA", "Embarqués"] },
+      { icon: "fa-solid fa-chart-bar",       title: "Data & IA",                tags: ["SQL", "Python", "Analyse de données", "Machine Learning", "Jupyter"] },
+      { icon: "fa-solid fa-layer-group",     title: "Frameworks & Outils",      tags: ["Flutter", "React", "Spring Boot", "Tailwind CSS", "Bootstrap", "Git"] },
+    ];
+
+    const formations = [
+      {
+        date: "2025 → En cours",
+        title: "Cycle Ingénieur — GSI",
+        school: "ESTLC — École Supérieure de Transport, Logistique et Commerce, Ambam",
+        desc: "Génie Informatique des Systèmes Logistiques et Intelligents. Orienté IoT, Systèmes Embarqués et Intelligence Artificielle. Diplôme d'ingénieur en 5 ans.",
+      },
+      {
+        date: "2025",
+        title: "BTS Réseaux & Sécurité Informatique",
+        school: "ESMATA — École Supérieure de Management et de Technologie Appliquée, Yaoundé",
+        desc: "Formation avancée en administration réseaux, cybersécurité, virtualisation et gestion des systèmes d'information.",
+      },
+      {
+        date: "2021",
+        title: "Baccalauréat Scientifique — Série C",
+        school: "Cameroun",
+        desc: "Mention obtenue avec spécialisation en mathématiques et sciences physiques.",
+      },
+    ];
+
+    /* ── CERTIFICATIONS ── insérer les noms de fichiers ici ── */
+    const certifications = [
+      {
+        variant: "gold",
+        icon: "fa-solid fa-trophy",
+        title: "Certification PIX — Niveau Avancé 1",
+        info: "AUF DR Afrique Centrale — CEF de Douala · 12/03/2026",
+        score: "555 / 895 pix",
+        scoreIcon: "fa-solid fa-star",
+        file: "certifpix.pdf",   /* ← remplacer par le nom exact du fichier */
+      },
+      {
+        variant: "blue",
+        icon: "fa-solid fa-database",
+        title: "Introduction to SQL",
+        info: "DataCamp · 24 mai 2026",
+        score: "Code : 10262001",
+        scoreIcon: "fa-solid fa-certificate",
+        file: "certif_sql.pdf",  /* ← remplacer par le nom exact du fichier */
+      },
+    ];
+
+    const projets = [
+      { icon: "fa-solid fa-house",           type: "Académique",       title: "Gestion de Contrats Immobiliers", desc: "Application web complète avec authentification, CRUD et tableaux de bord pour la gestion des contrats immobiliers.", stack: ["PHP", "Laravel", "MySQL", "Bootstrap"] },
+      { icon: "fa-solid fa-boxes-stacked",   type: "Académique",       title: "BureauStock — Gestion de Stock",  desc: "Suivi des entrées/sorties de matériel, alertes de seuil automatiques et génération de rapports.", stack: ["PHP", "Laravel", "MySQL", "Bootstrap"] },
+      { icon: "fa-solid fa-gamepad",         type: "Personnel",        title: "Mini Jeu de Combat",              desc: "Jeu de combat avec logique back-end PHP et animations front-end JavaScript fluides.", stack: ["PHP", "JavaScript", "HTML/CSS"] },
+      { icon: "fa-solid fa-graduation-cap",  type: "En développement", title: "Plateforme de Paiement Scolaire", desc: "Système de paiement en ligne des frais de scolarité avec passerelle de paiement, reçus et suivi des transactions.", stack: ["Laravel", "MySQL", "API Paiement"] },
+    ];
+
+    /* ── PHOTO ── remplacer "photo.jpg" par le chemin exact si nécessaire ── */
+    const PHOTO_SRC = "photo.jpg";
+
+    /* ── COMPOSANT PRINCIPAL ── */
+    function App() {
+      const [sent, setSent] = useState(false);
+
+      useEffect(() => {
+        const obs = new IntersectionObserver(entries => {
+          entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+        }, { threshold: 0.12 });
+        document.querySelectorAll('.fade-in').forEach(el => obs.observe(el));
+        return () => obs.disconnect();
+      }, []);
+
+      const handleSend = e => {
+        e.preventDefault();
+        setSent(true);
+        setTimeout(() => setSent(false), 3500);
+      };
+
+      return (
+        <>
+          {/* ── NAVBAR ── */}
+          <nav className="navbar">
+            <div className="navbar-brand">Mekontso<span>.</span></div>
+            <ul className="nav-links">
+              {["accueil","apropos","competences","formation","projets","contact"].map(s => (
+                <li key={s}><a href={`#${s}`}>{s.charAt(0).toUpperCase()+s.slice(1)}</a></li>
+              ))}
+            </ul>
+            <a href="CV_Mekontso.png" download className="btn-primary" style={{padding:'9px 20px',fontSize:'0.85rem'}}>
+              <i className="fa-solid fa-download"></i> CV
+            </a>
+          </nav>
+
+          {/* ── HERO ── */}
+          <section id="accueil" className="hero">
+            <div className="hero-inner">
+              <div className="hero-text">
+                <div className="hero-badge">
+                  <span className="pulse-dot"></span>
+                  Disponible pour des opportunités
+                </div>
+                <h1 className="hero-title">
+                  Mekontso<br/><span className="accent">Olivier Steve</span>
+                </h1>
+                <p className="hero-subtitle">Développeur Full Stack · Technicien IT Réseaux &amp; Sécurité</p>
+                <p className="hero-desc">
+                  Étudiant Ingénieur en <strong>GSI à l'ESTLC d'Ambam</strong>, passionné par le développement web,
+                  la cybersécurité et les systèmes intelligents. Certifié Pix Avancé 1 et SQL.
+                </p>
+                <div className="hero-btns">
+                  <a href="#contact" className="btn-primary">
+                    <i className="fa-solid fa-envelope"></i> Me Contacter
+                  </a>
+                  <a href="#projets" className="btn-outline">
+                    <i className="fa-solid fa-rocket"></i> Mes Projets
+                  </a>
+                </div>
+              </div>
+
+              <div className="hero-photo">
+                <div className="photo-wrapper">
+                  <div className="photo-ring"></div>
+                  <div className="photo-ring-inner"></div>
+                  <div className="photo-circle">
+                    <img src={PHOTO_SRC} alt="Mekontso Olivier Steve"/>
+                  </div>
+                  <div className="photo-deco deco-1">
+                    <i className="fa-solid fa-location-dot"></i> Yaoundé, Cameroun
+                  </div>
+                  <div className="photo-deco deco-2">
+                    <i className="fa-solid fa-graduation-cap"></i> Futur Ingénieur
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* ── A PROPOS ── */}
+          <section id="apropos">
+            <div className="section-inner fade-in">
+              <p className="section-label">Qui suis-je ?</p>
+              <h2 className="section-title">À <span>Propos</span> de Moi</h2>
+              <div className="section-divider"></div>
+              <div className="apropos-grid">
+                <div className="apropos-text">
+                  <p>Je suis <strong>Mekontso Olivier Steve</strong>, étudiant en Cycle Ingénieur à l'<strong>ESTLC d'Ambam</strong>, filière <strong>GSI (Génie Informatique des Systèmes Logistiques et Intelligents)</strong>. Je serai ingénieur dans quelques années, spécialisé en <strong>Systèmes Embarqués, Intelligence Artificielle et IoT</strong>.</p>
+                  <p>Titulaire d'un <strong>BTS Réseaux & Sécurité Informatique</strong> (ESMATA, Yaoundé), je suis également <strong>Responsable Technique du Corps de Cybersécurité</strong> à l'ESTLC, où je supervise des simulations d'attaques réseau et l'administration de systèmes Linux.</p>
+                  <p>Développeur Full Stack passionné, je maîtrise Linux, les machines virtuelles et les outils offensifs/défensifs en cybersécurité.</p>
+                  <div className="certif-badges">
+                    <div className="certif-badge gold">
+                      <i className="fa-solid fa-trophy"></i> Pix Avancé 1 — 555/895
+                    </div>
+                    <div className="certif-badge">
+                      <i className="fa-solid fa-database"></i> SQL — Introduction to SQL
+                    </div>
+                  </div>
+                </div>
+                <div className="info-cards">
+                  {[
+                    { icon: "fa-solid fa-cake-candles",  label: "Date de naissance", value: "10 Juillet 2003" },
+                    { icon: "fa-solid fa-location-dot",  label: "Localisation",       value: "Yaoundé, Cameroun" },
+                    { icon: "fa-solid fa-school",        label: "École",              value: "ESTLC — Ambam" },
+                    { icon: "fa-solid fa-book-open",     label: "Filière",            value: "GSI — Génie Informatique" },
+                    { icon: "fa-solid fa-envelope",      label: "Email",              value: "leroisdejesus@gmail.com" },
+                    { icon: "fa-brands fa-linkedin",     label: "LinkedIn",           value: "Seve Moffo" },
+                  ].map((item, i) => (
+                    <div className="info-card" key={i}>
+                      <div className="info-card-icon"><i className={item.icon}></i></div>
+                      <div className="info-card-text">
+                        <div className="info-card-label">{item.label}</div>
+                        <div className="info-card-value">{item.value}</div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* ── COMPÉTENCES ── */}
+          <section id="competences">
+            <div className="section-inner fade-in">
+              <p className="section-label">Mes capacités</p>
+              <h2 className="section-title">Compé<span>tences</span></h2>
+              <div className="section-divider"></div>
+              <div className="skills-grid">
+                {skills.map((s, i) => (
+                  <div className="skill-card fade-in" key={i} style={{animationDelay:`${i*0.1}s`}}>
+                    <div className="skill-card-header">
+                      <div className="skill-card-icon"><i className={s.icon}></i></div>
+                      <div className="skill-card-title">{s.title}</div>
+                    </div>
+                    <div className="skill-tags">
+                      {s.tags.map(t => <span className="skill-tag" key={t}>{t}</span>)}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+
+          {/* ── FORMATION + CERTIFICATIONS ── */}
+          <section id="formation">
+            <div className="section-inner fade-in">
+              <p className="section-label">Mon parcours</p>
+              <h2 className="section-title">For<span>mation</span></h2>
+              <div className="section-divider"></div>
+              <div className="timeline">
+                {formations.map((f, i) => (
+                  <div className="timeline-item fade-in" key={i}>
+                    <div className="timeline-dot"></div>
+                    <div className="timeline-card">
+                      <span className="timeline-date">{f.date}</span>
+                      <h3>{f.title}</h3>
+                      <p className="timeline-school">{f.school}</p>
+                      <p>{f.desc}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {/* ── CERTIFICATIONS ── */}
+              <div className="certifications-block fade-in">
+                <h3 className="certif-section-title">
+                  <i className="fa-solid fa-certificate"></i> Certifications
+                </h3>
+                <p className="certif-section-sub">Attestations officielles obtenues</p>
+                <div className="certif-cards-grid">
+                  {certifications.map((c, i) => (
+                    <div className={`certif-card ${c.variant}`} key={i}>
+                      <div className="certif-card-icon">
+                        <i className={c.icon}></i>
+                      </div>
+                      <div className="certif-card-info">
+                        <h4>{c.title}</h4>
+                        <p>{c.info}</p>
+                        <span className="certif-score">
+                          <i className={c.scoreIcon}></i> {c.score}
+                        </span>
+                      </div>
+                      <a href={c.file} target="_blank" rel="noreferrer" className="certif-view-btn">
+                        <i className="fa-solid fa-file-pdf"></i> Voir
+                      </a>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* ── PROJETS ── */}
+          <section id="projets">
+            <div className="section-inner fade-in">
+              <p className="section-label">Ce que j'ai construit</p>
+              <h2 className="section-title">Mes <span>Projets</span></h2>
+              <div className="section-divider"></div>
+              <div className="projets-grid">
+                {projets.map((p, i) => (
+                  <div className="projet-card fade-in" key={i}>
+                    <div className="projet-header">
+                      <div className="projet-icon"><i className={p.icon}></i></div>
+                      <span className="projet-type">{p.type}</span>
+                    </div>
+                    <h3>{p.title}</h3>
+                    <p>{p.desc}</p>
+                    <div className="projet-stack">
+                      {p.stack.map(s => <span className="stack-tag" key={s}>{s}</span>)}
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {/* CV Download */}
+              <div className="cv-section fade-in">
+                <h2>
+                  <i className="fa-solid fa-file-lines"></i> Télécharger mon CV
+                </h2>
+                <p>Retrouvez l'ensemble de mon parcours, mes compétences et mes expériences en détail.</p>
+                <a href="CV_Mekontso.png" download="CV_Mekontso_Olivier_Steve.png" className="btn-cv">
+                  <i className="fa-solid fa-download"></i> Télécharger le CV
+                </a>
+              </div>
+            </div>
+          </section>
+
+          {/* ── CONTACT ── */}
+          <section id="contact">
+            <div className="section-inner fade-in">
+              <p className="section-label">Restons en contact</p>
+              <h2 className="section-title">Me <span>Contacter</span></h2>
+              <div className="section-divider"></div>
+              <div className="contact-grid">
+                <div className="contact-info">
+                  {[
+                    { icon: "fa-solid fa-phone",      label: "Téléphone",   value: "+237 654 862 989",      href: "tel:+237654862989" },
+                    { icon: "fa-solid fa-envelope",   label: "Email",       value: "leroisdejesus@gmail.com", href: "mailto:leroisdejesus@gmail.com" },
+                    { icon: "fa-brands fa-linkedin",  label: "LinkedIn",    value: "Seve Moffo",             href: "#" },
+                    { icon: "fa-solid fa-location-dot", label: "Localisation", value: "Yaoundé, Cameroun", href: "#" },
+                  ].map((c, i) => (
+                    <a className="contact-item" href={c.href} key={i}>
+                      <div className="contact-icon"><i className={c.icon}></i></div>
+                      <div>
+                        <div className="contact-label">{c.label}</div>
+                        <div className="contact-value">{c.value}</div>
+                      </div>
+                    </a>
+                  ))}
+                </div>
+                <form className="contact-form" onSubmit={handleSend}>
+                  <div className="form-row">
+                    <div className="form-group">
+                      <label>Nom</label>
+                      <input type="text" placeholder="Votre nom" required/>
+                    </div>
+                    <div className="form-group">
+                      <label>Email</label>
+                      <input type="email" placeholder="votre@email.com" required/>
+                    </div>
+                  </div>
+                  <div className="form-group">
+                    <label>Sujet</label>
+                    <input type="text" placeholder="Objet de votre message" required/>
+                  </div>
+                  <div className="form-group">
+                    <label>Message</label>
+                    <textarea rows="5" placeholder="Votre message..." required></textarea>
+                  </div>
+                  <button type="submit" className="btn-send">
+                    {sent
+                      ? <><i className="fa-solid fa-check"></i> Message envoyé !</>
+                      : <><i className="fa-solid fa-paper-plane"></i> Envoyer le message</>
+                    }
+                  </button>
+                </form>
+              </div>
+            </div>
+          </section>
+
+          {/* ── FOOTER ── */}
+          <footer>
+            <p>© 2026 <span>Mekontso Olivier Steve</span> · Développeur Full Stack · ESTLC Ambam</p>
+            <p style={{marginTop:'8px', fontSize:'0.8rem'}}>Certifié <span>Pix Avancé 1</span> · SQL · GSI — Futur Ingénieur IoT &amp; IA</p>
+          </footer>
+        </>
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+  </script>
+</body>
+</html>
