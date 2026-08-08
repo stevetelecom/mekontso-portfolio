@@ -1,23 +1,44 @@
-name: Deploy Portfolio to o2switch
+name: 🚀 Deploy Portfolio Mekontso
 
 on:
   push:
-    branches: [main]
+    branches:
+      - main
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Deploy via rsync over SSH
-        uses: burnett01/rsync-deployments@6.0.0
-        with:
-          switches: -avzr --delete --exclude=".git/" --exclude=".github/"
-          path: ./
-          remote_path: ${{ secrets.REMOTE_PATH }}
-          remote_host: ${{ secrets.SSH_HOST }}
-          remote_port: ${{ secrets.SSH_PORT }}
-          remote_user: ${{ secrets.SSH_USER }}
-          remote_key: ${{ secrets.SSH_PRIVATE_KEY }}
+      - name: Get runner's public IP
+        id: ip
+        uses: haythem/public-ip@v1.3
+
+      - name: Whitelist runner IP on o2switch (legacy auth)
+        run: |
+          ENDPOINT='frontend/o2switch/o2switch-ssh-whitelist/index.live.php'
+          curl -sX POST -d 'whitelist[address]=${{ steps.ip.outputs.ipv4 }}' -d 'whitelist[port]=22' \
+            "https://${{ secrets.REMOTE_USER }}:${{ secrets.URL_ENCODED_PASSWORD }}@${{ secrets.REMOTE_HOST }}:2083/$ENDPOINT?r=add"
+
+      - name: Setup SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          echo "StrictHostKeyChecking no" >> ~/.ssh/config
+
+      - name: Sync files via rsync
+        run: |
+          rsync -avz --delete \
+            --exclude='.git' \
+            --exclude='.github' \
+            -e "ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no -p ${{ secrets.SSH_PORT }}" \
+            ./ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:${{ secrets.REMOTE_PATH }}
+
+      - name: Remove whitelisted IP (cleanup)
+        if: always()
+        run: |
+          ENDPOINT='frontend/o2switch/o2switch-ssh-whitelist/index.live.php'
+          curl -sX GET "https://${{ secrets.REMOTE_USER }}:${{ secrets.URL_ENCODED_PASSWORD }}@${{ secrets.REMOTE_HOST }}:2083/$ENDPOINT?r=remove&address=${{ steps.ip.outputs.ipv4 }}&direction=in&port=22"
+          curl -sX GET "https://${{ secrets.REMOTE_USER }}:${{ secrets.URL_ENCODED_PASSWORD }}@${{ secrets.REMOTE_HOST }}:2083/$ENDPOINT?r=remove&address=${{ steps.ip.outputs.ipv4 }}&direction=out&port=22"
