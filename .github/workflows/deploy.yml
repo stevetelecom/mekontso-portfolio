@@ -1,4 +1,4 @@
-name: 🚀 Deploy Portfolio Mekontso
+name: 🚀 Deploy Portfolio 3D Mekontso
 
 on:
   push:
@@ -7,11 +7,22 @@ on:
 
 jobs:
   deploy:
-    name: Deploy to o2switch
+    name: Build & Deploy to o2switch
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies & Build
+        run: |
+          npm ci
+          npm run build
 
       - name: Get runner public IP
         id: ip
@@ -47,13 +58,11 @@ jobs:
           chmod 600 ~/.ssh/deploy_key
           echo "StrictHostKeyChecking no" >> ~/.ssh/config
 
-      - name: Sync files via rsync
+      - name: Sync dist/ via rsync
         run: |
           rsync -avz --delete \
-            --exclude='.git' \
-            --exclude='.github' \
             -e "ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no -p ${{ secrets.SSH_PORT }}" \
-            ./ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:${{ secrets.REMOTE_PATH }}
+            dist/ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:${{ secrets.REMOTE_PATH }}
 
       - name: Remove GitHub Actions IP from whitelist
         if: always()
