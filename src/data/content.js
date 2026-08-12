@@ -106,6 +106,9 @@ export const skills = [
       { name: "VirtualBox", icon: "virtualbox", level: 75 },
       { name: "VMware", icon: "vmware", level: 65 },
       { name: "IoT", icon: "arduino", level: 55 },
+      { name: "Firebase", icon: "firebase", level: 60 },
+      { name: "Render", icon: "render", level: 55 },
+      { name: "Supabase", icon: "supabase", level: 55 },
     ],
   },
   {
@@ -217,6 +220,12 @@ export const certifications = [
 ];
 
 export const projets = [
+  {
+    type: "Stage",
+    title: "FretCorridor — App Mobile Chargeur",
+    desc: "Application mobile Flutter connectee a un backend Spring Boot/PostGIS conteneurise Docker : publication de demandes de transport, reception d'offres, paiement et suivi de livraison en temps reel sur le corridor logistique CEMAC. Frontend deploye sur Firebase, backend sur Render, base de donnees sur Supabase.",
+    stack: ["Flutter", "Spring Boot", "PostgreSQL/PostGIS", "Docker", "JWT", "Firebase", "Render", "Supabase"],
+  },
   {
     type: "Académique",
     title: "Gestion de Contrats Immobiliers",
