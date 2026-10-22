@@ -17,9 +17,9 @@ export const profile = {
   bio: [
     "Étudiant en Cycle Ingénieur à l'ESTLC d'Ambam, filière GSI (Génie Informatique des Systèmes Logistiques et Intelligents). Futur ingénieur spécialisé en Systèmes Embarqués, Intelligence Artificielle et IoT.",
     "Titulaire d'un BTS Réseaux & Sécurité Informatique (ESMATA, Yaoundé), Responsable Technique du Corps de Cybersécurité à l'ESTLC — supervision de simulations d'attaques réseau et administration de systèmes Linux.",
-    "Développeur Full Stack & Mobile (Web, React Native, Flutter, Android natif), actuellement en stage chez Flysoft Engineering SAS (Yaoundé) sur la plateforme logistique FretCorridor (Spring Boot, Docker), après un premier stage chez TE-SEA Incubator sur l'application de gestion de stock BureauStock. Disponible en freelance pour des missions de développement.",
+    "Développeur Full Stack & Mobile (Web, React Native, Flutter, Android natif), après un stage chez Flysoft Engineering SAS (Yaoundé) sur la plateforme logistique FretCorridor (Spring Boot, Docker) et un premier stage chez TE-SEA Incubator sur l'application de gestion de stock BureauStock. Disponible en freelance pour des missions de développement.",
   ],
-  status: "Freelance disponible · Actuellement en stage — Flysoft Engineering SAS",
+  status: "Freelance disponible · Disponible pour de nouvelles missions",
 };
 
 // Each skill category is tagged with a "zone" that maps to a visual state
@@ -160,7 +160,7 @@ export const formations = [
 
 export const experiences = [
   {
-    date: "2026 (en cours)",
+    date: "2026",
     title: "Développeur Full Stack — Stagiaire",
     company: "Flysoft Engineering SAS",
     location: "Yaoundé, Cameroun",
