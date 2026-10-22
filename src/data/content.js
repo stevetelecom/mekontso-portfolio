@@ -13,7 +13,7 @@ export const profile = {
   linkedin: "Steve Moffo",
   linkedinUrl: "#",
   photo: "/photo.jpg",
-  cv: "/CV_Mekontso.png",
+  cv: "/CV_Mekontso_V5_2pages.pdf",
   bio: [
     "Étudiant en Cycle Ingénieur à l'ESTLC d'Ambam, filière GSI (Génie Informatique des Systèmes Logistiques et Intelligents). Futur ingénieur spécialisé en Systèmes Embarqués, Intelligence Artificielle et IoT.",
     "Titulaire d'un BTS Réseaux & Sécurité Informatique (ESMATA, Yaoundé), Responsable Technique du Corps de Cybersécurité à l'ESTLC — supervision de simulations d'attaques réseau et administration de systèmes Linux.",

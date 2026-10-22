@@ -9,7 +9,7 @@ Ce projet référence 4 fichiers qui existent déjà sur ton hébergement o2swit
 ```
 public/
 ├── photo.jpg
-├── CV_Mekontso.png
+├── CV_Mekontso_V5_2pages.pdf
 ├── certifpix.pdf
 └── certif_sql.pdf
 ```
