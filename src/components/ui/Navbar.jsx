@@ -8,7 +8,7 @@ export default function Navbar() {
           <span className="font-display text-sm font-bold tracking-tight text-cyan-300">MOS</span>
         </span>
         <span className="font-display text-lg tracking-tight text-slate-100 hidden sm:inline">
-          Mekontso<span className="text-cyan-400">.</span>
+          {profile.firstName}<span className="text-cyan-400">.</span>
         </span>
       </a>
       <ul className="hidden md:flex items-center gap-7 font-mono text-xs tracking-widest text-slate-400">

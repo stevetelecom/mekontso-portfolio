@@ -64,13 +64,6 @@ jobs:
             -e "ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no -p ${{ secrets.SSH_PORT }}" \
             dist/ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:${{ secrets.REMOTE_PATH }}
 
-      - name: Diagnostic - racines des domaines
-        continue-on-error: true
-        run: |
-          ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no -p ${{ secrets.SSH_PORT }} \
-            ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} \
-            'echo "== HOME =="; ls -la ~; echo "== public_html =="; ls -la ~/public_html/ 2>/dev/null; echo "== domains =="; ls -la ~/domains/ 2>/dev/null; echo "== qui/pwd =="; whoami; pwd'
-
       - name: Remove GitHub Actions IP from whitelist
         if: always()
         run: |

@@ -1,6 +1,6 @@
 export const profile = {
-  name: "Mekontso Olivier Steve",
-  firstName: "Mekontso",
+  name: "MEKONTSO Olivier Steve",
+  firstName: "MEKONTSO",
   lastName: "Olivier Steve",
   role: "Développeur Full Stack",
   subrole: "Technicien IT — Réseaux & Sécurité",

@@ -34,9 +34,11 @@ export default function Hero() {
             SYSTEM_ONLINE · DISPONIBLE POUR OPPORTUNITÉS
           </p>
           <h1 className="font-display leading-[0.95] text-slate-100">
-            <span className="hero-line block text-[13vw] sm:text-[5.5vw] font-medium">Mekontso</span>
+            <span className="hero-line block text-[13vw] sm:text-[5.5vw] font-medium">
+              {profile.firstName}
+            </span>
             <span className="hero-line block text-[13vw] sm:text-[5.5vw] font-medium text-cyan-300">
-              Olivier Steve
+              {profile.lastName}
             </span>
           </h1>
           <p className="hero-sub mt-8 max-w-xl text-slate-400 text-base sm:text-lg leading-relaxed">
